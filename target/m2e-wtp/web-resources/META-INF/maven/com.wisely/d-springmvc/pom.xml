@@ -166,6 +166,15 @@
         	<artifactId>commons-io</artifactId>
         	<version>2.3</version>
         </dependency>
+        
+        <!-- Test -->
+        <dependency>
+        	<groupId>org.springframework</groupId>
+        	<artifactId>spring-test</artifactId>
+        	<version>${spring-framework.version}</version>
+        	<!-- 说明这些包的存货周期是在test周期，也就意味着发布时将不包含这些jar包 -->
+        	<scope>test</scope>
+        </dependency>
 
 	</dependencies>
 

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -21,7 +22,8 @@ import org.yuxuan.springmvc.converter.MyMessageConverter;
 import org.yuxuan.springmvc.interceptor.DemoInterceptor;
 
 @Configuration
-@EnableWebMvc// 开启一些spring默认配置
+@EnableWebMvc// 开启一些Spring默认配置
+@EnableScheduling//	开启SpringMvc对计划任务的支持
 @ComponentScan("org.yuxuan.springmvc")
 public class MyMvcConfig extends WebMvcConfigurerAdapter {// 继承WebMvcConfigurerAdapter类，重新方法可对SpringMvc进行配置
 
@@ -61,10 +63,12 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {// 继承WebMvcConfigu
 	 */
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("/index");
 		registry.addViewController("/index").setViewName("/index");
 		registry.addViewController("/toUpload").setViewName("/upload");
 		registry.addViewController("/toConverter").setViewName("/converter");
 		registry.addViewController("/sse").setViewName("/sse");
+		registry.addViewController("/async").setViewName("/async");
 	}
 	
 	/**
