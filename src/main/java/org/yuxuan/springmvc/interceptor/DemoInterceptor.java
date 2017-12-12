@@ -33,7 +33,7 @@ public class DemoInterceptor extends HandlerInterceptorAdapter {
 		long endTime = System.currentTimeMillis();
 		long usedTime = endTime - startTime;
 		
-		System.out.println("######DemoInterceptor_本次请求处理时间为: " + usedTime + "ms");
+		System.out.println("######来自DemoInterceptor的信息_本次请求处理时间为: " + usedTime + "ms");
 		request.setAttribute("handlingTime", usedTime);
 	}
 	
