@@ -5,8 +5,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -46,6 +48,25 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {// 继承WebMvcConfigu
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(demoInterceptor());
+	}
+	
+	/**
+	 * 使用重写addViewController方法来简化页面跳转的配置
+	 */
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/index").setViewName("/index");
+	}
+	
+	/**
+	 * 在SpringMvc中，路径参数如果带"."，"."后面的值会被忽略
+	 * 	例如访问  http://localhost:8080/d-springmvc/anno/pathvar/xx.yy
+	 * 	此时"."后面的yy将被忽略
+	 */
+	@Override
+	public void configurePathMatch(PathMatchConfigurer configurer) {
+		//	通过重写configurePathMatch方法可以不忽略"."后的参数
+		configurer.setUseSuffixPatternMatch(false);
 	}
 
 }
