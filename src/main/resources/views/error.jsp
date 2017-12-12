@@ -8,6 +8,6 @@
 <title>error</title>
 </head>
 <body>
-	${errorMessage }111
+	出错了: ${errorMessage }。
 </body>
 </html>

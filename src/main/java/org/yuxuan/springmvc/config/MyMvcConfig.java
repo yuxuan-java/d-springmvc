@@ -1,8 +1,11 @@
 package org.yuxuan.springmvc.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.yuxuan.springmvc.converter.MyMessageConverter;
 import org.yuxuan.springmvc.interceptor.DemoInterceptor;
 
 @Configuration
@@ -59,6 +63,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {// 继承WebMvcConfigu
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/index").setViewName("/index");
 		registry.addViewController("/toUpload").setViewName("/upload");
+		registry.addViewController("/toConverter").setViewName("/converter");
 	}
 	
 	/**
@@ -77,6 +82,23 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {// 继承WebMvcConfigu
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 		multipartResolver.setMaxUploadSize(1000000);
 		return multipartResolver;
+	}
+	
+	@Bean
+	public MyMessageConverter converter() {
+		return new MyMessageConverter();
+	}
+	
+	/**
+	 * 配置自定义的HttpMessageConverter的Bean，在SpringMvc里注册有两个方法:
+	 * 		1.configureMessageConverters:重载会覆盖掉SpringMvc默认注册的多个HttpMessageConverter;
+	 * 		2.ExtendMessageConverters:仅添加一个自定义的HttpMessageConverter，不覆盖默认注册;
+	 * 	所以此例中重新extendMessageConverters
+	 */
+	@Override
+	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+		super.extendMessageConverters(converters);
+		converters.add(converter());
 	}
 
 }
