@@ -9,7 +9,6 @@ public class HelloController {
 	//	http://localhost:8080/d-springmvc/index
 	@RequestMapping("/index")//2
 	public  String hello(){
-		
 		return "index";
 	}
 
